@@ -1,0 +1,51 @@
+#include "message.h"
+Message::Message(const std::string _type,const std::string _sender,const std::string _receiver):type{_type}
+,sender{_sender}
+,receiver{_receiver}
+{
+auto t {std::time(nullptr)};
+auto tm{*std::localtime(&t)};
+std::ostringstream oss ; 
+oss<<std::put_time(&tm,"%a %b %d %H:%M:%S %Y");
+time=oss.str(); //member variable time was initialized
+}
+Message::Message():Message("","","")
+{}
+std::string Message::get_type()
+{
+    return type ; 
+}
+std::string Message::get_sender()
+{
+    return sender ; 
+}
+std::string Message::get_receiver()
+{
+    return receiver ; 
+}
+std::string Message::get_time()
+{
+    return time ; 
+}
+void Message::print(std::ostream &os) const
+{
+    os<<std::string(25,'*')<<std::endl;
+    os<<sender<<"->"<<receiver<<std::endl;
+    os<<"message type: "<<type<<std::endl;
+    os<<"message time: "<<time<<std::endl;
+    os<<std::string(25,'*')<<std::endl;
+}
+TextMessage::TextMessage(std::string text, std::string _sender , std::string _receiver ):text{text}
+,Message("text",_sender,_receiver)
+{
+
+}
+void TextMessage::print(std::ostream &os)
+{
+    os<<std::string(25,'*')<<std::endl;
+    os<<Message::get_sender()<<"->"<<Message::get_receiver()<<std::endl;
+    os<<"message type: "<<Message::get_type()<<std::endl;
+    os<<"message time: "<<Message::get_time()<<std::endl;
+    os<<"text: "<<text<<std::endl;
+    os<<std::string(25,'*')<<std::endl;
+}
