@@ -27,7 +27,7 @@ std::string Message::get_time()
 {
     return time ; 
 }
-void Message::print(std::ostream &os) const
+ void Message::print(std::ostream &os) 
 {
     os<<std::string(25,'*')<<std::endl;
     os<<sender<<"->"<<receiver<<std::endl;
@@ -40,7 +40,7 @@ TextMessage::TextMessage(std::string text, std::string _sender , std::string _re
 {
 
 }
-void TextMessage::print(std::ostream &os)
+ void TextMessage::print(std::ostream &os)
 {
     os<<std::string(25,'*')<<std::endl;
     os<<Message::get_sender()<<"->"<<Message::get_receiver()<<std::endl;
@@ -48,4 +48,35 @@ void TextMessage::print(std::ostream &os)
     os<<"message time: "<<Message::get_time()<<std::endl;
     os<<"text: "<<text<<std::endl;
     os<<std::string(25,'*')<<std::endl;
+}
+/////////VoiceMessage/////////
+VoiceMessage::VoiceMessage(const std::string& _sender,const std::string& _receiver):
+Message("voice",_sender,_receiver)
+{
+    std::random_device engine;
+    for(size_t i{};i<5;i++)
+    {
+        voice.push_back(engine());
+    }    
+}
+ void VoiceMessage::print(std::ostream &os)
+{
+    os<<std::string(25,'*')<<std::endl;
+    os<<Message::get_sender()<<"->"<<Message::get_receiver()<<std::endl;
+    os<<"message type: "<<Message::get_type()<<std::endl;
+    os<<"message time: "<<Message::get_time()<<std::endl;
+
+    os<<"voice: ";
+    for(auto x:voice)
+    {
+        os<<static_cast<int>(x)<<' ';
+
+    }
+    os<<std::endl;
+    os<<std::string(25,'*')<<std::endl;
+}
+std::vector<unsigned char> VoiceMessage::get_voice()
+{
+std::cout<<"hello"<<std::endl;
+return voice ; 
 }

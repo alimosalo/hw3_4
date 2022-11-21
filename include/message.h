@@ -3,6 +3,8 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <vector>
+#include <random>
 #include <ostream>
 #include <ctime>
 #include <iomanip>
@@ -17,8 +19,8 @@ std::string get_sender();
 std::string get_receiver();
 std::string get_time();
 //STREAM OPERATOR
-void print(std::ostream &os) const;
-friend std::ostream& operator<<(std::ostream&os , const Message&c)
+virtual void print(std::ostream &) ;
+friend std::ostream& operator<<(std::ostream&os ,  Message&c)
 {
     c.print(os);
     return os;
@@ -29,12 +31,26 @@ private:
     std::string receiver; 
     std::string time;
 };
+
 class TextMessage : public Message
 {
 public:
 TextMessage(std::string  , std::string  , std::string  );
-void print(std::ostream &os);
+ virtual void print(std::ostream &os);
+
 private:
 std::string text{} ;
 };
+class VoiceMessage :public Message
+{
+    public:
+    VoiceMessage(const std::string&, const std::string&);
+    void print(std::ostream &os);
+    std::vector<unsigned char> get_voice();
+
+    private:
+    std::vector<unsigned char> voice;
+
+};
+
 #endif
